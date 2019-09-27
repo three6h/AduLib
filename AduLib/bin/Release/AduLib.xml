@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AduLib</name>
+    </assembly>
+    <members>
+        <member name="T:AduLib.UnhandledErrorException">
+            <summary>
+            Исключение, которое выдается, если, при вызове утилиты, произошла необработанная ошибка.
+            </summary>
+        </member>
+        <member name="P:AduLib.UnhandledErrorException.Arguments">
+            <summary>
+            Получает аргументы, переданные утилите.
+            </summary>
+        </member>
+        <member name="P:AduLib.UnhandledErrorException.InnerException">
+            <summary>
+            Получает экземпляр класса System.Exception, который вызвал текущее исключение.
+            </summary>
+        </member>
+        <member name="M:AduLib.UnhandledErrorException.#ctor(System.String)">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:AduLib.UnhandledErrorException"/>
+            с аргументами, переданные утилите.
+            </summary>
+            <param name="args">
+            Аргументы, которые были переданы утилите.
+            </param>
+        </member>
+        <member name="M:AduLib.UnhandledErrorException.#ctor(System.Exception)">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:AduLib.UnhandledErrorException"/>
+            с экземпляром исключения, вызвавшего данное исключение.
+            </summary>
+            <param name="innerException">
+            Исключение, вызвавшее текущее исключение.
+            </param>
+        </member>
+        <member name="T:AduLib.PathInvalidException">
+            <summary>
+            Исключение, которое выдается, при попытке преобразовать синтаксически некорректный путь.
+            </summary>
+        </member>
+        <member name="P:AduLib.PathInvalidException.Path">
+            <summary>
+            Получает путь.
+            </summary>
+        </member>
+        <member name="P:AduLib.PathInvalidException.InnerException">
+            <summary>
+            Получает экземпляр класса System.Exception, который вызвал текущее исключение.
+            </summary>
+        </member>
+        <member name="M:AduLib.PathInvalidException.#ctor(System.String)">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:AduLib.PathInvalidException"/> c путем.
+            </summary>
+            <param name="path">
+            Путь.
+            </param>
+        </member>
+        <member name="M:AduLib.PathInvalidException.#ctor(System.String,System.Exception)">
+            <summary>
+            Инициализирует новый экземпляр класса Adu.PathInvalidException c путем
+            и экземпляром исключения, вызвавшего данное исключение.
+            </summary>
+            <param name="path">
+            Путь.
+            </param>
+            <param name="innerException">
+            Исключение, вызвавшее текущее исключение.
+            </param>
+        </member>
+        <member name="T:AduLib.Folder">
+            <summary>
+            Представляет директорию и предоставляет методы экземпляра класса, для статичных методов
+            класса <see cref="T:AduLib.Function"/>. <see cref="P:AduLib.Folder.Path"/> может отличаться от заданного пути,
+            т.к путь преобразовывается. Этот класс не наследуется.
+            </summary>
+        </member>
+        <member name="P:AduLib.Folder.Path">
+            <summary>
+            Получает абсолютный путь к директории.
+            </summary>
+        </member>
+        <member name="P:AduLib.Folder.Drives">
+            <summary>
+            Получает список дисков под которыми смонтирована директория.
+            </summary>
+        </member>
+        <member name="P:AduLib.Folder.IsMounted">
+            <summary>
+            Получает true, директория монтирована; иначе false.
+            </summary>
+        </member>
+        <member name="M:AduLib.Folder.#ctor(System.String)">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:AduLib.Folder"/> с путем к директории.
+            <see cref="P:AduLib.Folder.Path"/> может отличаться от заданного пути, т.к заданный путь проходит
+            через <see cref="M:AduLib.Function.NormalizesPath(System.String)"/>.
+            </summary>
+            <param name="path">
+            Абсолютный путь к директории.
+            </param>
+            <exception cref="T:System.IO.DirectoryNotFoundException">
+            Путь не указывает на директорию или не существует вовсе.
+            </exception>
+            <exception cref="T:AduLib.PathInvalidException">
+            Ошибка при преобразовании пути.
+            </exception>
+        </member>
+        <member name="M:AduLib.Folder.Mount(System.Char)">
+            <summary>
+            Монтирует директорию под заданным диском.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E. 
+            </param>
+            <exception cref="T:System.IO.DriveNotFoundException">
+            Диск уже используется.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+        <member name="M:AduLib.Folder.Unmount(System.Char)">
+            <summary>
+            Удаляет диск, если под ним монтирована директория.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E.
+            </param>
+            <exception cref="T:System.IO.DriveNotFoundException">
+            Директория Adu.Folder.Path не монтирована под заданным диском.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+        <member name="M:AduLib.Folder.UnmountAll">
+            <summary>
+            Удаляет все диски, под которыми монтирована директория.
+            </summary>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+        <member name="M:AduLib.Folder.IsMountedUnder(System.Char)">
+            <summary>
+            Проверяет монтирована ли директория под заданным диском.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E.
+            </param>
+            <returns>
+            true, директория <see cref="P:AduLib.Folder.Path"/> монтированна под заданным диском; иначе false.
+            </returns>
+        </member>
+        <member name="T:AduLib.Function">
+            <summary>
+            Предоставляет статические методы для создания и удаления виртуального диска. Получаемый
+            виртуальный диск предоставляет информацию из заданной директории. Все действия производятся,
+            при помощи вызовов к встроенной утилите "Subst". Этот класс не наследуется.
+            </summary>
+        </member>
+        <member name="F:AduLib.Function.proc">
+            <summary>
+            Предоставляет доступ для создания и запуска процесса, вызывающего утилиту.
+            </summary>
+        </member>
+        <member name="M:AduLib.Function.Call(System.String)">
+            <summary>
+            Вызывает утилиту с заданными аргументами, возвращает ее выходные данные.
+            </summary>
+            <param name="args">
+            Аргументы, передающиеся утилите.
+            </param>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Eсли утилита вернула значение отличное 0, <see cref="P:AduLib.UnhandledErrorException.Arguments"/>
+            получает переданные аргументы. Иначе <see cref="P:AduLib.UnhandledErrorException.InnerException"/>
+            содержит экземпляр исключения вызвавший ошибку.
+            </exception>
+            <returns>
+            Список строк текстовых выходных данных. Каждый элемент отдельная строка.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.NormalizesPath(System.String)">
+            <summary>
+            Преобразует путь в форму, понятную утилите. Например: «C:» в «C:\» и «C:\Users \» в
+            «C:\Users» и переводит букву диска в верхний регистр.
+            </summary>
+            <param name="path">
+            Путь.
+            </param>
+            <exception cref="T:AduLib.PathInvalidException">
+            При преобразовании была выдана одна из исключений:
+            System.ArgumentException: path представляет собой строку нулевой длины, содержит только
+            пробелы или содержит недопустимые символы.
+            System.Security.SecurityException: У вызывающего объекта отсутствуют необходимые
+            разрешения.
+            System.ArgumentNullException: path имеет значение null.
+            System.NotSupportedException: path содержит двоеточие «:», которое не является частью
+            идентификатора тома (например, «c: \»).
+            System.IO.PathTooLongException: path превышает максимальную длину пути.
+            </exception>
+            <returns>
+            Строка преобразованного пути.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.GetMounted">
+            <summary>
+            Возвращает пары ключ/значение где, ключ - диск; значение - директория.
+            </summary>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            Пары ключ/значение. Диск, формата: C, D, E. Директория - абсолютный путь к директории.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.GetCouple(System.String)">
+            <summary>
+            Возвращает список дисков под которыми монтирована директория.
+            </summary>
+            <param name="path">
+            Абсолютный путь к директории.
+            </param>
+            <exception cref="T:AduLib.PathInvalidException">
+            Ошибка при преобразовании пути.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            Список дисков. Формата: C, D, E. 
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.GetCouple(System.Char)">
+            <summary>
+            Возвращает директорию, которая монтирована под заданным диском.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E. 
+            </param>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            Строка абсолютного пути к директории; null, если такого нет.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.GetMountedDrives">
+            <summary>
+            Возвращает список созданных дисков.
+            </summary>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            Список дисков. Формата: C, D, E. 
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.GetMountedPaths">
+            <summary>
+            Возвращает список монтированных директорий.
+            </summary>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            Список строк абсолютных путей к директории.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.IsWorks">
+            <summary>
+            Проверяет корректно ли работает утилита.
+            </summary>
+            <returns>
+            true, утилита работает корректно; иначе false.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.IsMounted(System.String)">
+            <summary>
+            Проверяет монтирована ли директория.
+            </summary>
+            <param name="path">
+            Абсолютный путь к директории.
+            </param>
+            <exception cref="T:AduLib.PathInvalidException">
+            Ошибка при преобразовании пути.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            true, директория монтирована; иначе false.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.IsMounted(System.Char)">
+            <summary>
+            Проверяет создан ли диск.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E. 
+            </param>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+            <returns>
+            true, если диск был создан; иначе false.
+            </returns>
+        </member>
+        <member name="M:AduLib.Function.Mount(System.Char,System.String)">
+            <summary>
+            Монтирует заданную директорию под заданным диском.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E.
+            </param>
+            <param name="path">
+            Абсолютный путь к директории.
+            </param>
+            <exception cref="T:System.IO.DriveNotFoundException">
+            Диск уже используется.
+            </exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">
+            Путь не указывает на директорию.
+            </exception>
+            <exception cref="T:AduLib.PathInvalidException">
+            Ошибка при преобразовании пути.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+        <member name="M:AduLib.Function.Unmount(System.String)">
+            <summary>
+            Удаляет все диски, под которыми монтирована заданная директория.
+            </summary>
+            <param name="path">
+            Абсолютный путь к директории.
+            </param>
+            <exception cref="T:AduLib.PathInvalidException">
+            Ошибка при преобразовании пути.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+        <member name="M:AduLib.Function.Unmount(System.Char)">
+            <summary>
+            Удаляет заданный диск.
+            </summary>
+            <param name="drive">
+            Диск. Формата: C, D, E.
+            </param>
+            <exception cref="T:System.IO.DriveNotFoundException">
+            Диск не был создан.
+            </exception>
+            <exception cref="T:AduLib.UnhandledErrorException">
+            Необработанная ошибка.
+            </exception>
+        </member>
+    </members>
+</doc>
